@@ -1,0 +1,23 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "waf-regional:UpdateIPSet",
+                "waf-regional:GetIPSet"
+            ],
+            "Resource": "arn:aws:waf-regional:us-east-2:*:ipset/ae7879f6-2cb0-4735-8ef3-2ebe3a3a521d"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "waf-regional:GetChangeToken",
+                "waf-regional:ListIPSets"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

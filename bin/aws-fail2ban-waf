@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__ . '/../src/AWSFail2Ban/WAF.php';
+
+use AWSFail2Ban\WAF as AWSFail2BanSecurityGroup;
+
+new AWSFail2BanSecurityGroup();
