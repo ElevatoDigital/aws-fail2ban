@@ -1,4 +1,4 @@
-Forked from https://github.com/anthonymartin/aws-acl-fail2ban
+Credits: Originally forked from https://github.com/anthonymartin/aws-acl-fail2ban
 
 # aws-fail2ban
 This package includes a script and fail2ban configuration that allows you to interact with applicable AWS resources via fail2ban actions. For example, you can add an IP to a WAF Regional IPSet that is used to deny access to resources. This makes it possible to continue using fail2ban on your servers behind an Amazon loadbalancer and ban ips upstream from that server.
