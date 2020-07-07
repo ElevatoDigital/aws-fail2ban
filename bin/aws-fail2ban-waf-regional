@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__ . '/../src/AWSFail2Ban/WAFRegional.php';
+
+use AWSFail2Ban\WAFRegional as AWSFail2BanWAFRegional;
+
+new AWSFail2BanWAFRegional();

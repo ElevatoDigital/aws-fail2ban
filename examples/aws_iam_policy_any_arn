@@ -8,7 +8,10 @@
                 "waf-regional:GetChangeToken",
                 "waf-regional:ListIPSets",
                 "waf-regional:UpdateIPSet",
-                "waf-regional:GetIPSet"
+                "waf-regional:GetIPSet",
+                "wafv2:ListIPSets",
+                "wafv2:UpdateIPSet",
+                "wafv2:GetIPSet"
             ],
             "Resource": "*"
         }

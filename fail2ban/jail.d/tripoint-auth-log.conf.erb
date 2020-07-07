@@ -1,0 +1,23 @@
+[tripoint-auth-log]
+enabled = true
+port = http,https
+<% if @authentication_log_maxretry -%>
+maxretry = <%= @authentication_log_maxretry %>
+<% end -%>
+<% if @authentication_log_findtime -%>
+findtime = <%= @authentication_log_findtime %>
+<% end -%>
+<% if @authentication_log_bantime -%>
+bantime = <%= @authentication_log_bantime %>
+<% end -%>
+logpath = %(tripoint_auth_log)s
+filter  = tripoint-auth-log
+<% if @wafv2 == true -%>
+action  = aws-wafv2
+          %(action_mb)s
+<% elsif @waf_regional == true -%>
+action  = aws-waf-regional
+          %(action_mb)s
+<% else %>
+action  = %(action_mb)s
+<% end %>

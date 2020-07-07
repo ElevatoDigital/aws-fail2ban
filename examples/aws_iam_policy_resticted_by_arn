@@ -6,7 +6,9 @@
             "Effect": "Allow",
             "Action": [
                 "waf-regional:UpdateIPSet",
-                "waf-regional:GetIPSet"
+                "waf-regional:GetIPSet",
+                "wafv2:UpdateIPSet",
+                "wafv2:GetIPSet"
             ],
             "Resource": "arn:aws:waf-regional:us-east-2:*:ipset/ae7879f6-2cb0-4735-8ef3-2ebe3a3a521d"
         },
@@ -15,7 +17,8 @@
             "Effect": "Allow",
             "Action": [
                 "waf-regional:GetChangeToken",
-                "waf-regional:ListIPSets"
+                "waf-regional:ListIPSets",
+                "wafv2:ListIPSets"
             ],
             "Resource": "*"
         }

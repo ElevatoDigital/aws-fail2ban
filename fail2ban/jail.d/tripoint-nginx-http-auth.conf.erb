@@ -1,0 +1,17 @@
+[tripoint-nginx-http-auth]
+enabled = true
+port = http,https
+<% if @findtime -%>
+findtime = <%= @findtime %>
+<% end -%>
+logpath = %(nginx_error_log)s
+filter  = nginx-http-auth
+<% if @wafv2 == true -%>
+  action  = aws-wafv2
+  %(action_mb)s
+<% elsif @waf_regional == true -%>
+  action  = aws-waf-regional
+  %(action_mb)s
+<% else %>
+  action  = %(action_mb)s
+<% end %>

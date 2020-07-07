@@ -1,7 +1,0 @@
-[aws-waf-nginx-http-auth]
-enabled = true
-port    = http,https
-logpath = %(nginx_error_log)s
-filter = aws-waf-example-filter
-action = aws-waf-action
-  sendmail-whois[name=LoginDetect, dest=youremail@example.com, sender=youremail@local.hostname, sendername="Fail2Ban"]

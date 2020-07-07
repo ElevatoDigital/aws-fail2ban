@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__ . '/../src/AWSFail2Ban/WAFv2.php';
+
+use AWSFail2Ban\WAFv2 as AWSFail2BanWAFv2;
+
+new AWSFail2BanWAFv2();
