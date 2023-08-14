@@ -218,6 +218,12 @@ class WAFRegional extends AbstractResource {
      */
     public static function unban($ip) {
 
+        // Decrement the ban count.
+        // If there are still bans, don't unban.
+        if (self::banCount($ip, -1) > 0) {
+          return;
+        }
+
         $banned = true;
 
         // due to the possibility of the change-token expiring before
@@ -275,6 +281,9 @@ class WAFRegional extends AbstractResource {
      */
     public static function ban($ip) {
 
+        // Increment the ban count so we know how many times this IP has been banned.
+        self::banCount($ip);
+
         // each change requires a change token
         $change_token = static::getChangeToken();
 
@@ -306,4 +315,17 @@ class WAFRegional extends AbstractResource {
 
     }
 
+    /**
+     * Keep track of how many bans are in place for an IP.
+     */
+    protected static function banCount($ip, $change = +1) {
+        $data = file_get_contents('/var/aws-fail2ban');
+        $data = empty($data) ? array() : json_decode($data, true);
+        $data[$ip] = isset($data[$ip]) ? $data[$ip] + $change : $change;
+        if ($data[$ip] <= 0) {
+           unset($data[$ip]);
+        }
+        file_put_contents('/var/aws-fail2ban', json_encode($data));
+        return isset($data[$ip]) ? $data[$ip] : 0;
+    }
 }
