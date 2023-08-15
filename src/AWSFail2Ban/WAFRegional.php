@@ -13,6 +13,7 @@ class WAFRegional extends AbstractResource {
     const CMD_UPDATE_IP_SET                 = 'aws waf-regional update-ip-set --change-token %s --updates \'%s\'';
     const CMD_UPDATE_IP_SET_ACTION_INSERT   = 'Action="INSERT",IPSetDescriptor={Type="%s",Value="%s"}';
     const CMD_UPDATE_IP_SET_ACTION_DELETE   = 'Action="DELETE",IPSetDescriptor={Type="%s",Value="%s"}';
+    const BAN_COUNT_FILE                    = '/var/aws-fail2ban';
 
     /**
      * Appends --ip-set-id to filter commands
@@ -107,6 +108,9 @@ class WAFRegional extends AbstractResource {
     }
 
     public static function unbanAll(){
+
+        // Delete ban count file.
+        unlink(static::BAN_COUNT_FILE);
 
         $allIps = static::getAllIpsBanned();
         $allIpsCount = count($allIps);
@@ -220,7 +224,7 @@ class WAFRegional extends AbstractResource {
 
         // Decrement the ban count.
         // If there are still bans, don't unban.
-        if (self::banCount($ip, -1) > 0) {
+        if (static::banCount($ip, -1) > 0) {
           return;
         }
 
@@ -282,7 +286,7 @@ class WAFRegional extends AbstractResource {
     public static function ban($ip) {
 
         // Increment the ban count so we know how many times this IP has been banned.
-        self::banCount($ip);
+        static::banCount($ip);
 
         // each change requires a change token
         $change_token = static::getChangeToken();
@@ -319,13 +323,13 @@ class WAFRegional extends AbstractResource {
      * Keep track of how many bans are in place for an IP.
      */
     protected static function banCount($ip, $change = +1) {
-        $data = file_get_contents('/var/aws-fail2ban');
+        $data = file_get_contents(static::BAN_COUNT_FILE);
         $data = empty($data) ? array() : json_decode($data, true);
         $data[$ip] = isset($data[$ip]) ? $data[$ip] + $change : $change;
         if ($data[$ip] <= 0) {
            unset($data[$ip]);
         }
-        file_put_contents('/var/aws-fail2ban', json_encode($data));
+        file_put_contents(static::BAN_COUNT_FILE, json_encode($data));
         return isset($data[$ip]) ? $data[$ip] : 0;
     }
 }

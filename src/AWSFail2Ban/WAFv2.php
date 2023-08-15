@@ -40,7 +40,7 @@ class WAFv2 extends WAFRegional {
     public static function ban($ip) {
 
         // Increment the ban count so we know how many times this IP has been banned.
-        self::banCount($ip);
+        static::banCount($ip);
 
         // get all ip addresses
         $ip_addresses = self::getAllIpsBanned(true);
@@ -86,7 +86,7 @@ class WAFv2 extends WAFRegional {
 
         // Decrement the ban count.
         // If there are still bans, don't unban.
-        if (self::banCount($ip, -1) > 0) {
+        if (static::banCount($ip, -1) > 0) {
           return;
         }
 
@@ -145,6 +145,9 @@ class WAFv2 extends WAFRegional {
     }
 
     public static function unbanAll(){
+
+        // Delete ban count file.
+        unlink(static::BAN_COUNT_FILE);
 
         $allIps = static::getAllIpsBanned(true);
         $allIpsCount = count($allIps);
